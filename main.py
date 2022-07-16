@@ -4,12 +4,14 @@ import tkinter.filedialog as tkfd
 import tkinter.ttk as ttk
 import os
 
+from numpy import require
+
 wndw = tk.Tk()
 #make the window size 50% screen resolution
 wndw.geometry("%dx%d+%d+%d" % (wndw.winfo_screenwidth()/2, wndw.winfo_screenheight()/2, wndw.winfo_screenwidth()/4, wndw.winfo_screenheight()/4))
 #maximize the window
 #wndw.state('zoomed')
-wndw.title("PS Media Converter v1.0.0")
+wndw.title("PS Media Converter v22.0.1")
 #set icon to icon.png
 try:
     img = tk.Image("photo", file="./assets/icon.png")
