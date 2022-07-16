@@ -43,12 +43,15 @@ for theme in styles:
 viewMenu = tk.Menu(menu, tearoff=0)
 viewMenu.add_cascade(label="Theme", menu=themesSub)
 
+editMenu = tk.Menu(menu, tearoff=0)
+editMenu.add_command(label="Preferences")
+
 wndw.config(menu=menu)
 menu.add_cascade(label="File", menu=fileMenu)
-menu.add_cascade(label="Edit")
+menu.add_cascade(label="Edit", menu=editMenu)
 menu.add_cascade(label="Tasks", menu=tasksMenu)
 menu.add_cascade(label="View", menu=viewMenu)
-menu.add("command", label="Help", command=lambda: os.startfile("https://example.com"))
+menu.add("command", label="Help", command=lambda: os.startfile("https://ps-software.github.io/helpcenter/"))
 
 
 wndw.mainloop()
