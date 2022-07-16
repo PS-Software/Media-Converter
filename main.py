@@ -49,5 +49,7 @@ menu.add_cascade(label="Tasks", menu=tasksMenu)
 menu.add_cascade(label="View", menu=viewMenu)
 menu.add("command", label="Help", command=lambda: os.startfile("https://ps-software.github.io/helpcenter/"))
 
+button = ttk.Button(wndw, text="test")
+button.place(relx=0.5, rely=0.5, anchor="center")
 
 wndw.mainloop()
