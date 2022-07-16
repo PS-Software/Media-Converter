@@ -1,6 +1,4 @@
-import moviepy.editor as mp
 import tkinter as tk
-import tkinter.filedialog as tkfd
 import tkinter.ttk as ttk
 import os
 
