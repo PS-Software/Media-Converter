@@ -78,7 +78,7 @@ def add_task():
     
     #make a popup window to get info like the output file name and the conversion format
     popup = tk.Toplevel(window)
-    popup.geometry("500x300")
+    popup.geometry("500x100")
     #add the icon to the popup
     try:
         img = tk.Image("photo", file="./assets/icon.png")
