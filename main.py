@@ -104,12 +104,12 @@ def run_tasks():
         #set the status to running
         task[3] = "Running"
         update_tasklist()
-        rn.fileConversionTask(task[0], task[2], task[4], task[5])
+        rn.file_conversion_task(task[0], task[2], task[5])
         #set the status to finished
         task[3] = "Finished"
         update_tasklist()
 
-def remove_task():
+def remove_tasks():
     clear_tasks()
 
 fileMenu = tk.Menu(menu, tearoff=0)
@@ -120,7 +120,7 @@ fileMenu.add_command(label="Exit", command=window.quit)
 tasksMenu = tk.Menu(menu, tearoff=0)
 tasksMenu.add_command(label="Run All Tasks", state="disabled", command=run_tasks)
 #tasksMenu.add_command(label="Cancel All Tasks", state="disabled")
-tasksMenu.add_command(label="Remove All Tasks", state="disabled")
+tasksMenu.add_command(label="Remove All Tasks", state="disabled", command=remove_tasks)
 
 themesSub = tk.Menu(tasksMenu, tearoff=0)
 #add all available themes to the themes submenu
@@ -148,12 +148,12 @@ buttons.pack(side="top", fill="x")
 importButton = ttk.Button(buttons, text="Import", command=add_task)
 
 rat = ttk.Button(buttons, text="Run All Tasks", state="disabled") #you can tell who made this variable name (it was me, lewolfyt)
-cat = ttk.Button(buttons, text="Cancel All Tasks", state="disabled")
+#cat = ttk.Button(buttons, text="Cancel All Tasks", state="disabled")
 rmat = ttk.Button(buttons, text="Remove All Tasks", state="disabled")
 
 importButton.pack(side="left")
 rat.pack(side="left")
-cat.pack(side="left")
+#cat.pack(side="left")
 rmat.pack(side="left")
 
 #make the task list frame
@@ -178,8 +178,12 @@ def update_tasklist():
     #enable the buttons
     if len(tasks) > 0:
         rat.config(state="normal")
-        cat.config(state="normal")
+        #cat.config(state="normal")
         rmat.config(state="normal")
+        #and the menu items
+        tasksMenu.entryconfigure(0, state="normal")
+        tasksMenu.entryconfigure(1, state="normal")
+        #tasksMenu.entryconfigure(2, state="normal")
 
 def clear_tasks():
     tasklist.delete(*tasklist.get_children())
