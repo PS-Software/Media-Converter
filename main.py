@@ -5,14 +5,14 @@ import os
 
 global tasks
 tasks = []
+global taskdirs
+taskdirs = []
 global videoformats
 videoformats = ["mp4", "avi", "mkv", "mov", "wmv", "flv", "mpg", "mpeg", "mts", "gif"]
 global audioformats
 audioformats = ["mp3", "wav", "flac", "ogg", "aac", "wma", "m4a"]
-global rasterimageformats
-rasterimageformats = ["jpg", "jpeg", "jfif", "gif", "png", "bmp", "tiff", "tif", "heic", "webp"]
-global vectorimageformats
-vectorimageformats = ["svg"]
+global imageformats
+imageformats = ["jpg", "jpeg", "jfif", "gif", "png", "bmp", "tiff", "tif", "heic", "webp"]
 
 window = tk.Tk()
 #make the window size 50% screen resolution
@@ -65,88 +65,43 @@ buttons.pack(side="top", fill="x")
 
 def import_file():
     #open a file dialog and get the file
-    file = tkfd.askopenfilename(filetypes=[("Video Files", videoformats), ("Audio Files", audioformats), ("Raster Image Files", rasterimageformats), ("Vector Image Files", vectorimageformats)])
+    file = tkfd.askopenfilename(filetypes=[("Video Files", videoformats), ("Audio Files", audioformats), ("Image Files", imageformats)])
     #if the file is not empty, add it to the list
-    if file != "":
-        return file
+    tasks.append(file)
+    return file
+
+def add_directory():
+    #open a file dialog and get the file
+    directory = tkfd.askdirectory()
+    #if the file is not empty, add it to the list
+    taskdirs.append(directory)
 
 def add_task():
     file = import_file()
     if file == "":
         return
-    # make a popup window to get info about the task
+    
+    #make a popup window to get info like the output file name and the conversion format
     popup = tk.Toplevel(window)
+    popup.geometry("500x300")
+    #add the icon to the popup
+    try:
+        img = tk.Image("photo", file="./assets/icon.png")
+        window.iconphoto(False, img)
+    except:
+        pass
     popup.title("Add Task")
-    popup.geometry("500x200")
-    popup.resizable(False, False)
-    # the popup will have a dropdown menu to select the task type
-    # the dropdown menu will have the following options:
-    # - file type conversion ("Convert")
-    # - transcoding ("Transcode")
     
-    # the content of the popup will change depending on the task type
+    pathchooser_frame = tk.Frame(popup)
+    pathchooser_frame.pack(side="top", fill="x")
     
-    # create a frame for the dropdown menu
-    dropdown = tk.Frame(popup)
-    dropdown.pack(side="top", fill="x")
-    # create a label for the dropdown menu
-    dropdown_label = tk.Label(dropdown, text="Task Type")
-    dropdown_label.pack(side="top")
-    # create a dropdown menu
-    dropdown_menu = ttk.Combobox(dropdown, values=["Convert", "Transcode"])
-    dropdown_menu.pack(side="top")
-    # create a frame for the content of the popup
-    contentConvert = tk.Frame(popup)
-    contentConvert.pack(side="bottom", fill="x")
+    pathchooser = ttk.Button(pathchooser_frame, text="Choose File", command=add_directory)
+    pathchooser.pack(side="left")
     
-    # if the option selected is "Convert", the content of the popup will be:
-    # - new file type dropdown menu
-    # - output file directory selection button
+    pathchooser_label = ttk.Label(pathchooser_frame, text="No file chosen")
+    pathchooser_label.pack(side="left")
     
-    # no matter what the option selected is, there will be an "Add Task" button
-    
-    # content of the file type dropdown menu: video files array (videoformats)
-    # add the file type dropdown menu to the content frame
-    file_type_dropdown = ttk.Combobox(contentConvert, values=videoformats)
-    file_type_dropdown.pack(side="right")
-    # create a label for the file type dropdown menu
-    file_type_dropdown_label = tk.Label(contentConvert, text="Output File Type")
-    file_type_dropdown_label.pack(side="left")
-    # create a button to select the output file directory
-    global outdir
-    outdir = ""
-    
-    def output_file_directory():
-        return tkfd.askdirectory()
-    
-    def select_output_file_directory():
-        global outdir
-        outdir = output_file_directory()
-    output_file_directory_button = tk.Button(contentConvert, text="Select Output File Directory", command=select_output_file_directory)
-    output_file_directory_button.pack(side="left")
-    
-    # wait for a selection to be made for the task type
-    def dropdown_menu_selection(e):
-        # if the option selected is "Convert", we will add the convert format dropdown menu to the content frame
-        # if the option selected is "Transcode", we will add the transcode format dropdown menu to the content frame
-        a = e
-        def f(): 
-            return a
-        a = f()
-        a = None
-        if dropdown_menu.get() == "Convert":
-            # create a frame for the convert format dropdown menu
-            convert_format_dropdown = tk.Frame(contentConvert)
-            convert_format_dropdown.pack(side="right")
-            # create a dropdown menu for the convert format
-            convert_format_dropdown_menu = ttk.Combobox(contentConvert, values=videoformats)
-            convert_format_dropdown_menu.pack(side="right")
-        elif dropdown_menu.get() == "Transcode":
-            transcode_format_dropdown = tk.Frame(contentConvert)
-            transcode_format_dropdown.pack(side="right")
-            transcode_format_dropdown_menu = ttk.Combobox(contentConvert, values=videoformats)
-            transcode_format_dropdown_menu.pack(side="right")
-    file_type_dropdown.bind("<<ComboboxSelected>>", dropdown_menu_selection)
+    pathchooser.bind("<Button-1>", lambda event: pathchooser_label.config(text=taskdirs))
 
 #make the buttons
 importButton = ttk.Button(buttons, text="Import", command=add_task)
@@ -163,6 +118,13 @@ rmat.pack(side="left")
 #make the task list frame
 tasklframe = tk.Frame(window)
 tasklframe.pack(side="top", fill="both", expand=True)
-tasklist = tk.Listbox(tasklframe, selectmode="extended")
+
+#the task list will be a table
+tasklist = ttk.Treeview(tasklframe, columns=("File", "Status", "Conversion Type", "Output file"), show="headings")
+tasklist.heading("File", text="File")
+tasklist.heading("Status", text="Status")
+tasklist.heading("Conversion Type", text="Conversion Type")
+tasklist.heading("Output file", text="Output file")
+tasklist.pack(side="top", fill="both", expand=True)
 
 window.mainloop()
