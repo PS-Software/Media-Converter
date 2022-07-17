@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
 import os
+import runner as rn
 
 global tasks
 tasks = []
@@ -86,14 +87,22 @@ def add_task():
         #get the info from the popup
         outputdir = pathchooser_label.cget("text")
         format = typechooser.get()
+        currentformat = file.split(".")[-1]
         #add the task to the list
-        tasks.append([file, filetype + " ➔ " + format, outputdir, "Queued"])
+        tasks.append([file, currentformat + " ➔ " + format, outputdir, "Queued", currentformat, format])
         #close the popup
         popup.destroy()
         #update the listbox
         update_tasklist()
     addbtn = ttk.Button(btframe, text="Add Task", command=lambda: add_task_to_list())
     addbtn.pack(side="right")
+
+def run_tasks():
+    #run the tasks
+    for task in tasks:
+        rn.fileConversionTask(task[0], task[1], task[2])
+    #update the listbox
+    update_tasklist()
 
 fileMenu = tk.Menu(menu, tearoff=0)
 fileMenu.add_command(label="Open")
@@ -156,7 +165,7 @@ def update_tasklist():
     tasklist.delete(*tasklist.get_children())
     
     for task in tasks:
-        tasklist.insert("", "end", values=task)
+        tasklist.insert("", "end", values=task[:4])
     
     #enable the buttons
     if len(tasks) > 0:
