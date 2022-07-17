@@ -100,7 +100,8 @@ def add_task():
 def run_tasks():
     #run the tasks
     for task in tasks:
-        rn.fileConversionTask(task[0], task[1], task[2])
+        #format: input path, output path, current format, output format
+        rn.fileConversionTask(task[0], task[2], task[4], task[5])
     #update the listbox
     update_tasklist()
 
