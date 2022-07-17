@@ -1,9 +1,9 @@
 import os
 
-def fileConversionTask(inputPath, outputDirectory, inputExtension, outputExtension):
+def fileConversionTask(input_path, output_directory, input_extension, output_extension):
     #we will be using ffmpeg with the os module to convert the file
-    os.popen("ffmpeg -i " + inputPath + inputExtension + outputDirectory + outputExtension)
+    os.popen("ffmpeg -i " + input_path + input_extension + output_directory + output_extension)
     return
 
-def convertTask(inPath, outDir, inExt, outExt):
-    return fileConversionTask(inPath, outDir, inExt, outExt)
+def convertTask(in_path, out_dir, in_ext, out_ext):
+    return fileConversionTask(in_path, out_dir, in_ext, out_ext)
