@@ -115,8 +115,10 @@ def add_task():
     # create a button to select the output file directory
     global outdir
     outdir = ""
+    
     def output_file_directory():
         return tkfd.askdirectory()
+    
     def select_output_file_directory():
         global outdir
         outdir = output_file_directory()
@@ -128,7 +130,8 @@ def add_task():
         # if the option selected is "Convert", we will add the convert format dropdown menu to the content frame
         # if the option selected is "Transcode", we will add the transcode format dropdown menu to the content frame
         a = e
-        def f(): return a
+        def f(): 
+            return a
         a = f()
         a = None
         if dropdown_menu.get() == "Convert":
