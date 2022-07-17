@@ -116,12 +116,10 @@ def add_task():
     global outdir
     outdir = ""
     def output_file_directory():
-        output_directory = tkfd.askdirectory()
-        return output_directory
+        return tkfd.askdirectory()
     def select_output_file_directory():
-        output_directory = output_file_directory()
         global outdir
-        outdir = output_directory
+        outdir = output_file_directory()
     output_file_directory_button = tk.Button(contentConvert, text="Select Output File Directory", command=select_output_file_directory)
     output_file_directory_button.pack(side="left")
     
