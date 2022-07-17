@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
 import tkinter.messagebox as tkm
+from PIL import Image, ImageTk
 import os
 
 global tasks
@@ -73,6 +74,77 @@ def import_file():
 
 def add_task():
     file = import_file()
+    # make a popup window to get info about the task
+    popup = tk.Toplevel(window)
+    popup.title("Add Task")
+    popup.geometry("%dx%d+%d+%d" % (popup.winfo_screenwidth()/8, popup.winfo_screenheight()/8, popup.winfo_screenwidth()/4, popup.winfo_screenheight()/16))
+    popup.resizable(False, False)
+    # the popup will have a dropdown menu to select the task type
+    # the dropdown menu will have the following options:
+    # - file type conversion ("Convert")
+    # - transcoding ("Transcode")
+    
+    # the content of the popup will change depending on the task type
+    
+    # create a frame for the dropdown menu
+    dropdown = tk.Frame(popup)
+    dropdown.pack(side="top", fill="x")
+    # create a label for the dropdown menu
+    dropdown_label = tk.Label(dropdown, text="Task Type")
+    dropdown_label.pack(side="top")
+    # create a dropdown menu
+    dropdown_menu = ttk.Combobox(dropdown, values=["Convert", "Transcode"])
+    dropdown_menu.pack(side="top")
+    # create a frame for the content of the popup
+    contentConvert = tk.Frame(popup)
+    contentConvert.pack(side="bottom", fill="x")
+    
+    # if the option selected is "Convert", the content of the popup will be:
+    # - new file type dropdown menu
+    # - output file directory selection button
+    
+    # no matter what the option selected is, there will be an "Add Task" button
+    
+    # content of the file type dropdown menu: video files array (videoformats)
+    # add the file type dropdown menu to the content frame
+    file_type_dropdown = ttk.Combobox(contentConvert, values=videoformats)
+    file_type_dropdown.pack(side="right")
+    # create a label for the file type dropdown menu
+    file_type_dropdown_label = tk.Label(contentConvert, text="Output File Type")
+    file_type_dropdown_label.pack(side="left")
+    # create a button to select the output file directory
+    global outdir
+    outdir = ""
+    def output_file_directory():
+        output_file_directory = tkfd.askdirectory()
+        return output_file_directory
+    def select_output_file_directory():
+        output_file_directory = output_file_directory()
+        global outdir
+        outdir = output_file_directory
+    output_file_directory_button = tk.Button(contentConvert, text="Select Output File Directory", command=select_output_file_directory)
+    output_file_directory_button.pack(side="left")
+    
+    # wait for a selection to be made for the task type
+    def dropdown_menu_selection():
+        # if the option selected is "Convert", the content of the popup will be:
+        # - new file type dropdown menu
+        # - output file directory selection button
+        if dropdown_menu.get() == "Convert":
+            # add the file type dropdown menu to the content frame
+            file_type_dropdown.pack(side="right")
+            # create a label for the file type dropdown menu
+            file_type_dropdown_label.pack(side="left")
+        # if the option selected is "Transcode", the content of the popup will be:
+        # - new file type dropdown menu
+        # - output file directory selection button
+        elif dropdown_menu.get() == "Transcode":
+            # add the file type dropdown menu to the content frame
+            file_type_dropdown.pack(side="right")
+            # create a label for the file type dropdown menu
+            file_type_dropdown_label.pack(side="left")
+        
+    dropdown_menu.bind("<<ComboboxSelected>>", dropdown_menu_selection)
 
 #make the buttons
 importButton = ttk.Button(buttons, text="Import", command=add_task)
