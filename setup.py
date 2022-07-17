@@ -10,6 +10,6 @@ setup(
     author_email="",
     url="",
     console=["runner.py"],
-    windows=[{"script": "runner.py", "icon_resources": [(1, "assets/icon.ico")]}],
+    windows=[{"script": "main.py", "icon_resources": [(1, "assets/icon.ico")]}],
     download_url = "",
 )
