@@ -101,9 +101,16 @@ def run_tasks():
     #run the tasks
     for task in tasks:
         #format: input path, output path, current format, output format
+        #set the status to running
+        task[3] = "Running"
+        update_tasklist()
         rn.fileConversionTask(task[0], task[2], task[4], task[5])
-    #update the listbox
-    update_tasklist()
+        #set the status to finished
+        task[3] = "Finished"
+        update_tasklist()
+
+def remove_task():
+    clear_tasks()
 
 fileMenu = tk.Menu(menu, tearoff=0)
 fileMenu.add_command(label="Open")
@@ -111,8 +118,8 @@ fileMenu.add_separator()
 fileMenu.add_command(label="Exit", command=window.quit)
 
 tasksMenu = tk.Menu(menu, tearoff=0)
-tasksMenu.add_command(label="Run All Tasks", state="disabled")
-tasksMenu.add_command(label="Cancel All Tasks", state="disabled")
+tasksMenu.add_command(label="Run All Tasks", state="disabled", command=run_tasks)
+#tasksMenu.add_command(label="Cancel All Tasks", state="disabled")
 tasksMenu.add_command(label="Remove All Tasks", state="disabled")
 
 themesSub = tk.Menu(tasksMenu, tearoff=0)
@@ -173,5 +180,8 @@ def update_tasklist():
         rat.config(state="normal")
         cat.config(state="normal")
         rmat.config(state="normal")
+
+def clear_tasks():
+    tasklist.delete(*tasklist.get_children())
 
 window.mainloop()
