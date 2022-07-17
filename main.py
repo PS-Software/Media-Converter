@@ -1,4 +1,3 @@
-from lib2to3.pytree import convert
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
