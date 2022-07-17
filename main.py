@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
 import os
-from taskman import add_task
+
 global tasks
 tasks = []
 global videoformats
@@ -157,5 +157,11 @@ def update_tasklist():
     
     for task in tasks:
         tasklist.insert("", "end", values=task)
+    
+    #enable the buttons
+    if len(tasks) > 0:
+        rat.config(state="normal")
+        cat.config(state="normal")
+        rmat.config(state="normal")
 
 window.mainloop()
