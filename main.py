@@ -1,8 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
-import tkinter.messagebox as tkm
-from PIL import Image, ImageTk
 import os
 
 global tasks
@@ -132,8 +130,7 @@ def add_task():
         # if the option selected is "Convert", we will add the convert format dropdown menu to the content frame
         # if the option selected is "Transcode", we will add the transcode format dropdown menu to the content frame
         a = e
-        def f():
-            return a
+        def f(): return a
         a = f()
         a = None
         if dropdown_menu.get() == "Convert":
