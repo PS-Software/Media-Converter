@@ -201,7 +201,7 @@ class Runner():
         os.popen("ffmpeg -i " + input_path + " " + output_directory + "/"+ filename_extensionless + "." + output_extension)
         return
 
-def convert_Task(in_path, out_dir, in_name, out_ext):
+    def convert_Task(in_path, out_dir, in_name, out_ext):
         return this.fileConversionTask(in_path, out_dir, in_name, out_ext)
 
 if __name__ == "__main__":
