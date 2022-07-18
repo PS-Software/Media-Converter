@@ -1,4 +1,3 @@
-import this
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
@@ -191,18 +190,22 @@ def clear_tasks():
 
 window.mainloop()
 
-class PSMediaConverter:
-    def main():
+class Main:
+    def main(self):
+        self.initMenu()
+    
+    def initMenu():
         pass
 
-class Runner():
+class Runner:
     def fileConversionTask(input_path, output_directory, output_extension):
         filename_extensionless = os.path.splitext(input_path)[0]
         os.popen("ffmpeg -i " + input_path + " " + output_directory + "/"+ filename_extensionless + "." + output_extension)
         return
 
-    def convert_Task(in_path, out_dir, in_name, out_ext):
-        return this.fileConversionTask(in_path, out_dir, in_name, out_ext)
+    @staticmethod
+    def convert_Task(self, in_path, out_dir, in_name, out_ext):
+        return self.fileConversionTask(in_path, out_dir, in_name, out_ext)
 
 if __name__ == "__main__":
-    PSMediaConverter.main()
+    Main.main()
