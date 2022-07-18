@@ -10,7 +10,6 @@ setup(
     author="PizzaSoft",
     author_email="",
     url="",
-    console=["runner.py"],
     windows=[{"script": "main.py", "icon_resources": [(1, "assets/icon.ico")]}],
     download_url = "",
     icon = "assets/icon.ico",
