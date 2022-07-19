@@ -2,7 +2,6 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
 import os
-import runner as rn
 
 global tasks
 tasks = []
@@ -99,12 +98,17 @@ def add_task():
 
 def run_tasks():
     #run the tasks
+    print("Running tasks...")
     for task in tasks:
+        print(task)
         #format: input path, output path, current format, output format
         #set the status to running
         task[3] = "Running"
         update_tasklist()
-        rn.file_conversion_task(task[0], task[2], task[5])
+        filename_extensionless = os.path.splitext(task[0])[0]
+        new_filename = filename_extensionless + "." + task[5]
+        #now we run ffmpeg
+        os.system("ffmpeg -i \"" + task[0] + "\" -c:v copy -c:a copy \"" + new_filename + "\"")
         #set the status to finished
         task[3] = "Finished"
         update_tasklist()
@@ -147,9 +151,9 @@ buttons.pack(side="top", fill="x")
 #make the buttons
 importButton = ttk.Button(buttons, text="Import", command=add_task)
 
-rat = ttk.Button(buttons, text="Run All Tasks", state="disabled") #you can tell who made this variable name (it was me, lewolfyt)
+rat = ttk.Button(buttons, text="Run All Tasks", state="disabled", command=run_tasks) #you can tell who made this variable name (it was me, lewolfyt)
 #cat = ttk.Button(buttons, text="Cancel All Tasks", state="disabled")
-rmat = ttk.Button(buttons, text="Remove All Tasks", state="disabled")
+rmat = ttk.Button(buttons, text="Remove All Tasks", state="disabled", command=remove_tasks)
 
 importButton.pack(side="left")
 rat.pack(side="left")
@@ -187,25 +191,7 @@ def update_tasklist():
 
 def clear_tasks():
     tasklist.delete(*tasklist.get_children())
+    global tasks
+    tasks = []
 
 window.mainloop()
-
-class Main:
-    def main(self):
-        self.initMenu()
-    
-    def initMenu():
-        pass
-
-class Runner:
-    def fileConversionTask(input_path, output_directory, output_extension):
-        filename_extensionless = os.path.splitext(input_path)[0]
-        os.popen("ffmpeg -i " + input_path + " " + output_directory + "/"+ filename_extensionless + "." + output_extension)
-        return
-
-    @staticmethod
-    def convert_Task(self, in_path, out_dir, in_name, out_ext):
-        return self.fileConversionTask(in_path, out_dir, in_name, out_ext)
-
-if __name__ == "__main__":
-    Main.main()
