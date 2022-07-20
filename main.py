@@ -108,7 +108,19 @@ def run_tasks():
         filename_extensionless = os.path.splitext(task[0])[0]
         new_filename = filename_extensionless + "." + task[5]
         #now we run ffmpeg
-        os.system("ffmpeg -i \"" + task[0] + "\" -c:v copy -c:a copy \"" + new_filename + "\"")
+        #if the file is a video
+        pathdelimiter = "\\" if os.name == "nt" else "/"
+        if task[4] in videoformats:
+            os.system("ffmpeg -i \"" + task[0] + "\" -c:v " + task[5] + " \"" + task[2] + pathdelimiter + new_filename + "\"")
+        if task[4] in audioformats:
+            #if converting to wav, we need to also make it fixed-bitrate
+            if task[5] == "wav":
+                os.system("ffmpeg -i \"" + task[0] + "\" -c:a pcm_s16le -c:v copy \"" + task[2] + pathdelimiter + new_filename + "\"")
+            else:
+                os.system("ffmpeg -i \"" + task[0] + "\" -c:a " + task[5] + " \"" + new_filename + "\"")
+        if task[4] in imageformats:
+            #use imagemagick to convert the image
+            os.system("convert \"" + task[0] + "\" -resize " + task[5] + " \"" + task[2] + pathdelimiter + new_filename + "\"")
         #set the status to finished
         task[3] = "Finished"
         update_tasklist()
