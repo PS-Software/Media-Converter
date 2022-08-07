@@ -11,6 +11,8 @@ global audioformats
 audioformats = ["mp3", "wav", "flac", "ogg", "aac", "wma", "m4a"]
 global imageformats
 imageformats = ["jpg", "jpeg", "jfif", "gif", "png", "bmp", "tiff", "tif", "heic", "webp"]
+global videocodecs
+videocodecs = ["h264", "h265", "avchd", "prores", "cineform", "dnxhd", "mp4v", "cineform", "av1", "vp9"]
 
 window = tk.Tk()
 #make the window size 50% screen resolution
